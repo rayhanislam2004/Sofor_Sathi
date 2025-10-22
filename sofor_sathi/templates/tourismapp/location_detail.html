@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ location.name }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <img src="{{ location.image.url }}" class="img-fluid rounded shadow-sm mb-4" alt="{{ location.name }}">
+            <h1 class="display-4">{{ location.name }}</h1>
+            <p class="lead text-muted">{{ location.location }}</p>
+            <p><strong>Category:</strong> {{ location.category.name }} | <strong>Rating:</strong> {{ location.rating }}/5.0 ⭐</p>
+
+            {% if user.is_authenticated %}
+            <div class="my-4">
+                <a href="{% url 'tripapp:add_to_bucket_list' location.id %}" class="btn btn-lg btn-warning">
+                    Add to Bucket List 🪣
+                </a>
+                <a href="{% url 'tripapp:plan_trip' location.id %}" class="btn btn-lg btn-success">
+                    Plan a Trip 🗺️
+                </a>
+            </div>
+            {% endif %}
+            <hr>
+
+            <h4>Description</h4>
+            <div>{{ location.description|linebreaks }}</div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    🚍 Routes & Transport
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for route in location.routes.all %}
+                    <div class="list-group-item">
+                        <strong>From:</strong> {{ route.start_point }} <br>
+                        <strong>To:</strong> {{ route.end_point }}
+                        <hr class="my-2">
+                        <div class="bg-light p-2 rounded small">
+                            {{ route.description|linebreaks }}
+                        </div>
+                         <div class="mt-2">
+                            <a href="{% url 'tourismapp:route_detail' route.id %}" class="btn btn-sm btn-outline-info">View Route & Reviews</a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="list-group-item">No route info available.</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Reviews for {{ location.name }}</h3>
+            {% for review in location.reviews.all %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h6 class="card-title">{{ review.user.user.username }} - <span class="text-warning">{{ review.rating }}/5 Stars</span></h6>
+                    <p class="card-text">"{{ review.comment }}"</p>
+                </div>
+            </div>
+            {% empty %}
+            <p>No reviews yet for this location.</p>
+            {% endfor %}
+
+            {% if user.is_authenticated %}
+                <div class="mt-4 p-4 border rounded bg-light">
+                    <h4>Add Your Review</h4>
+                    <form action="{% url 'tourismapp:add_location_review' location.id %}" method="POST">
+                        {% csrf_token %}
+                        {{ location_review_form.as_p }}
+                        <button type="submit" class="btn btn-success">Submit Review</button>
+                    </form>
+                </div>
+            {% else %}
+                 <div class="alert alert-info mt-4">
+                    You must be <a href="{% url 'userapp:login' %}?next={{ request.path }}">logged in</a> to add a review.
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <h3>Reviews for Associated Routes</h3>
+            {% for route in location.routes.all %}
+                <div class="mb-4">
+                    <h5>Reviews for: {{ route.start_point }} to {{ route.end_point }}</h5>
+                    {% for review in route.reviews.all %}
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ review.user.user.username }} - <span class="text-warning">{{ review.rating }}/5 Stars</span></h6>
+                            <p class="card-text">"{{ review.comment }}"</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted">No reviews for this route yet.</p>
+                    {% endfor %}
+
+                    {% if user.is_authenticated %}
+                        <div class="mt-3 p-3 border rounded bg-light">
+                             <h5>Add Your Review for this Route</h5>
+                            <form action="{% url 'tourismapp:add_route_review' route.id %}" method="POST">
+                                {% csrf_token %}
+                                {{ route_review_form.as_p }}
+                                <button type="submit" class="btn btn-info btn-sm">Submit</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
