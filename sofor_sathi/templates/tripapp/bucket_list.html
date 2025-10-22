@@ -1,1 +1,17 @@
-
+{% extends 'base.html' %}
+{% block title %}My Bucket List{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">My Bucket List cd</h1>
+    <div class="list-group">
+        {% for item in bucket_list_items %} { }
+            <a href="{% url 'tourismapp:location_detail' item.spot.id %}" class="list-group-item list-group-item-action">
+                <h5>{{ item.spot.name }}</h5>
+                <p class="mb-1 text-muted">{{ item.spot.location }}</p>
+            </a>
+        {% empty %} { }
+            <p>Your bucket list is empty. Explore some <a href="{% url 'tourismapp:location_list' %}">locations</a>!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
