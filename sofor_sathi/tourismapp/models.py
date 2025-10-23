@@ -16,17 +16,31 @@ class Location(models.Model):
     rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
     image = models.ImageField(upload_to='locations/')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='locations')
+     # for user contribution
+    is_approved = models.BooleanField(default=False)
+    submitted_by = models.ForeignKey(
+        UserProfile,
+        on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='submitted_locations'
+    )
 
     def __str__(self):
         return f"{self.name} ({self.location})"
 
 
 class Route(models.Model):
-
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='routes')
     start_point = models.CharField(max_length=255)
     end_point = models.CharField(max_length=255)
-    description = models.TextField(help_text="Provide details about the transport type, fare.")
+    description = models.TextField(help_text="Provide details about the transport type, fare, and time.")
+     # for user contribution
+    is_approved = models.BooleanField(default=False)
+    submitted_by = models.ForeignKey(
+        UserProfile,
+        on_delete=models.SET_NULL,null=True,
+        blank=True,
+        related_name='submitted_routes'
+    )
 
     def __str__(self):
         return f"Route from {self.start_point} to {self.location.name}"
