@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Contribute to Sofor Sathi{% endblock %}
+{% block content %}
+
+<div class="container py-5 text-center">
+    <h1 class="display-5 fw-bold">Help Our Community Grow</h1>
+    <p class="lead text-muted">
+        Your knowledge can help thousands of travelers. What would you like to add?
+    </p>
+
+    <p class="text-muted mt-3">
+        Sofor Sathi is built by travelers like you — people who love to explore, discover, and share their journeys.
+        Every location or route you add helps others travel smarter, safer, and with more confidence.
+    </p>
+    <p class="text-muted">
+        Whether it’s a hidden spot in your hometown, a shortcut you’ve found, or a travel tip that saved your trip —
+        your contribution makes a real difference in building a stronger, community-driven travel guide for everyone.
+    </p>
+    <p class="text-muted mb-5">
+        Let’s make exploring Bangladesh easier and more exciting together — one story, one route, and one place at a time!
+    </p>
+
+    <div class="row mt-5 justify-content-center">
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+
+                        <h3 class="card-title">📍 Add a New Location</h3>
+                        <p>Know a hidden gem? A beautiful resort or a historical site that's not on our list? Share it!</p>
+                        <p>Maybe you’ve visited a peaceful riverside, a mountain trail, or a quiet village no one knows about yet — let others discover it too!</p>
+                        <p>Help travelers explore more by adding details about the location, local culture, and nearby attractions.</p>
+                        <p>Every new place you share helps enrich our travel community and inspires others to explore Bangladesh.</p>
+                    </div>
+                    <a href="{% url 'contribution:submit_location' %}" class="btn btn-primary mt-3">Suggest Location</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+
+                        <h3 class="card-title">🗺️ Add a New Route</h3>
+                        <p>Do you know a better or cheaper way to get to an <em>existing</em> location? Add a new transport route.</p>
+                        <p>Maybe there’s a shortcut road, a scenic drive, or a new bus line that most travelers don’t know about — share it here!</p>
+                        <p>Your shared routes help others save time, money, and discover beautiful paths along the journey.</p>
+                        <p>Let’s make traveling easier for everyone by updating our route information together.</p>
+                    </div>
+                    <a href="{% url 'contribution:submit_route' %}" class="btn btn-success mt-3">Suggest Route</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}
