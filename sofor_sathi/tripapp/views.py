@@ -75,3 +75,18 @@ def trip_detail(request, trip_id):
         'trip': trip
     }
     return render(request, 'tripapp/trip_detail.html', context)
+
+
+@login_required
+def remove_from_bucket_list(request, item_id):
+
+    item = get_object_or_404(BucketList, id=item_id)
+
+    if item.user == request.user.userprofile:
+        location_name = item.spot.name
+        item.delete()
+        messages.success(request, f"'{location_name}' has been removed from your bucket list.")
+    else:
+        messages.error(request, "you are not authorized to remove this item.")
+
+    return redirect('userapp:profile')

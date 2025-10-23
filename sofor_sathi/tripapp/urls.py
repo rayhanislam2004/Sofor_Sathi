@@ -10,4 +10,5 @@ urlpatterns = [
     path('bucket/', views.bucket_list_view, name='bucket_list'),
     path('plan/<int:location_id>/', views.plan_trip, name='plan_trip'),
     path('detail/<int:trip_id>/', views.trip_detail, name='trip_detail'),
+    path('bucket-list/remove/<int:item_id>/', views.remove_from_bucket_list, name='remove_from_bucket_list'),
 ]
