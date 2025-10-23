@@ -27,6 +27,9 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('review/', views.review, name='review'),
+    path('tourism/', include('tourismapp.urls')),
+    path('trip/', include('tripapp.urls')),
+
 ]
 
 if settings.DEBUG:
