@@ -1,77 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Sofor Sathi</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-< use bootstrap >
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>{% block title %}Sofor Sathi{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-light">
-<!--navbar-->
+<body class="d-flex flex-column min-vh-100 bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-<div class="container">
-<a class="navbar-brand fw-bold" href="/">Sofor Sathi</a>
-<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-<span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarNav">
-<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-<li class="nav-item">
-<a class="nav-link active" aria-current="page" href="/">🏠 Home</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="{% url 'about' %}">ℹ️ About</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="{% url 'review' %}">⭐ Review</a>
-</li>
-</ul>
-<div class="d-flex">
-{% if user.is_authenticated %}
-<a href="{% url 'userapp:profile' %}" class="btn btn-sm btn-light me-2">👤 {{ user.username }}</a>
-<a href="{% url 'userapp:logout' %}" class="btn btn-sm btn-outline-light">Logout</a>
-{% else %}
-<a href="{% url 'userapp:login' %}" class="btn btn-sm btn-light me-2">Login</a>
-<a href="{% url 'userapp:register' %}" class="btn btn-sm btn-outline-light">Register</a>
-{% endif %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{% url 'home' %}">Sofor Sathi</a>
 
-</div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-</div>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'tourismapp:location_list' %}">All Locations</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'tourismapp:route_finder' %}">Route Finder</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'review' %}">Review</a>
+        </li>
+      </ul>
 
-</div>
-
+      <div class="d-flex align-items-center">
+        {% if user.is_authenticated %}
+          <a href="{% url 'contribution:hub' %}" class="btn btn-sm btn-warning me-2 fw-bold">Contribute</a>
+          <a href="{% url 'userapp:profile' %}" class="btn btn-sm btn-light me-2">👤 {{ user.username }}</a>
+          <a href="{% url 'userapp:logout' %}" class="btn btn-sm btn-outline-light">Logout</a>
+        {% else %}
+          <a href="{% url 'userapp:login' %}" class="btn btn-sm btn-light me-2">Login</a>
+          <a href="{% url 'userapp:register' %}" class="btn btn-sm btn-outline-light">Register</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </nav>
 
-<div class="container py-4">
+<div class="container py-4 flex-grow-1">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
 
-{% if messages %}
-
-{% for message in messages %}
-
-<div class="alert alert-info alert-dismissible fade show" role="alert">
-
-{{ message }}
-
-<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-
+  {% block content %}{% endblock %}
 </div>
-
-{% endfor %}
-{% endif %}
-{% block content %}{% endblock %}
-
-</div>
-<footer class="text-center mt-5 py-3 bg-white border-top">
-<small>&copy; 2025 Sofor Sathi | Explore Bangladesh 🌏</small>
+<footer class="bg-white text-center mt-auto py-3 border-top">
+    <div class="container">
+        <small>&copy; 2025 Sofor Sathi | Explore Bangladesh 🌏</small>
+    </div>
 </footer>
-< bootstrap >
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
-
 </html>
-
