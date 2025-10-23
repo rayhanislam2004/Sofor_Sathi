@@ -40,23 +40,27 @@
                     </ul>
 
                     <div class="tab-content" id="profileTabContent">
+
                         <div class="tab-pane fade show active" id="trips" role="tabpanel">
                             <h4>My Planned Trips ✈️</h4>
-                            {% for trip in planned_trips %}
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Trip to: <a href="{% url 'tourismapp:location_detail' trip.spot.id %}">{{ trip.spot.name }}</a></h5>
-                                        <p class="card-text">
-                                            <strong>From:</strong> {{ trip.start_date|date:"d M, Y" }}
-                                            <strong>To:</strong> {{ trip.end_date|date:"d M, Y" }}
+                            <div class="list-group">
+                                {% for trip in planned_trips %}
+                                    <a href="{% url 'tripapp:trip_detail' trip.id %}" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">Trip to: {{ trip.spot.name }}</h5>
+                                            <small class="text-success">View Details →</small>
+                                        </div>
+                                        <p class="mb-1">
+                                            <small>From: {{ trip.start_date|date:"d M, Y" }} To: {{ trip.end_date|date:"d M, Y" }}</small>
                                         </p>
+                                    </a>
+                                {% empty %}
+                                    <div class="list-group-item">
+                                        <p class="mb-0">You have not planned any trips yet. Why not <a href="{% url 'tourismapp:location_list' %}">find a location</a> and plan one?</p>
                                     </div>
-                                </div>
-                            {% empty %}
-                                <p>You have not planned any trips yet. Why not <a href="{% url 'tourismapp:location_list' %}">find a location</a> and plan one?</p>
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
                         </div>
-
                         <div class="tab-pane fade" id="bucket-list" role="tabpanel">
                             <h4>My Bucket List 🪣</h4>
                             <div class="list-group">

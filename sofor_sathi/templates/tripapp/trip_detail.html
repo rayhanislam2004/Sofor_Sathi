@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Trip to {{ trip.spot.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="my-1">My Trip to: {{ trip.spot.name }}</h2>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Destination</h5>
+                    <p class="card-text">{{ trip.spot.location }}</p>
+
+                    <h5 class="card-title mt-4">Dates</h5>
+                    <p class="card-text">
+                        From: <strong>{{ trip.start_date|date:"d M, Y" }}</strong>
+                        <br>
+                        To: <strong>{{ trip.end_date|date:"d M, Y" }}</strong>
+                    </p>
+
+                    <h5 class="card-title mt-4">My Budget</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            Transport cost: <strong>{{ trip.budget.transport_cost|floatformat:2 }} BDT</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            Food cost: <strong>{{ trip.budget.food_cost|floatformat:2 }} BDT</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            Hotel cost: <strong>{{ trip.budget.hotel_cost|floatformat:2 }} BDT</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            Other cost: <strong>{{ trip.budget.other_cost|floatformat:2 }} BDT</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-light">
+                            <strong class="text-success">Total Estimated Cost:</strong>
+                            <strong class="text-success">{{ trip.budget.total_cost|floatformat:2 }} BDT</strong>
+                        </li>
+                    </ul>
+
+                    <a href="{% url 'userapp:profile' %}" class="btn btn-secondary mt-4">← Back to Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -12,9 +12,9 @@ def add_to_bucket_list(request, location_id):
 
     if not BucketList.objects.filter(user=request.user.userprofile, spot=location).exists():
         BucketList.objects.create(user=request.user.userprofile, spot=location)
-        messages.success(request, f'"{location.name}" has been added to your bucket list!')
+        messages.success(request, f'"{location.name}" added to your bucket list!')
     else:
-        messages.warning(request, f'"{location.name}" is already in your bucket list.')
+        messages.warning(request, f'"{location.name}"  already in your bucket list.')
 
     return redirect('tourismapp:location_detail', pk=location_id)
 
@@ -39,7 +39,7 @@ def plan_trip(request, location_id):
             budget.trip = trip
             budget.save()
 
-            messages.success(request, f"Your trip to {location.name} has been planned!")
+            messages.success(request, f"Your trip to {location.name} has been planned")
 
             return redirect('userapp:profile')
 
@@ -60,3 +60,18 @@ def bucket_list_view(request):
     bucket_list_items = BucketList.objects.filter(user=request.user.userprofile)
     context = {'bucket_list_items': bucket_list_items}
     return render(request, 'tripapp/bucket_list.html', context)
+
+
+@login_required
+def trip_detail(request, trip_id):
+    trip = get_object_or_404(Trip, id=trip_id)
+
+    if trip.user != request.user.userprofile:
+        messages.error(request, "You are not authorized to view this trip.")
+        return redirect('userapp:profile')
+
+
+    context = {
+        'trip': trip
+    }
+    return render(request, 'tripapp/trip_detail.html', context)
