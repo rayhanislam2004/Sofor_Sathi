@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}Sofor Sathi - Your Travel Companion{% endblock %}
+
 {% block content %}
+
 <div class="p-5 mb-4 bg-light rounded-3 text-center shadow-sm">
     <div class="container-fluid py-5">
         <h1 class="display-4 fw-bold">Discover the Beauty of Bangladesh</h1>
@@ -8,12 +11,102 @@
 
         <div class="row justify-content-center mt-4">
             <div class="col-md-8">
-
+                <form action="{% url 'tourismapp:search_results' %}" method="GET" class="d-flex">
                     <input class="form-control form-control-lg me-2" type="search" name="q" placeholder="Search for a location " aria-label="Search">
                     <button class="btn btn-primary btn-lg" type="submit">Search</button>
                 </form>
             </div>
         </div>
-        </div>
+    </div>
 </div>
+
+
+
+<div class="container py-5">
+    <div class="row text-center">
+        <div class="col-12">
+            <h2 class="display-6 fw-bold mb-4">Your Journey Starts Here</h2>
+            <p class="lead text-muted col-lg-8 mx-auto">Planning a trip shouldn't be complicated. We've simplified the entire process into three easy steps so you can focus on the adventure, not the paperwork.</p>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4 text-center">
+                    <div class="display-3 text-primary">🗺️</div>
+                    <h3 class="fw-bold mt-3">01. Discover</h3>
+                    <p class="text-muted">Explore hundreds of approved locations and routes. Use our simple search and powerful Route Finder to find destinations and see exactly how to get there, based on real-world information.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4 text-center">
+                    <div class="display-3 text-success">💰</div>
+                    <h3 class="fw-bold mt-3">02. Plan</h3>
+                    <p class="text-muted">Turn your dream into a plan. Our Trip Planner lets you set dates, estimate your budget for transport, food, and hotels, and add personal notes. Save your favorite spots to your personal Bucket List for later.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4 text-center">
+                    <div class="display-3 text-warning">⭐</div>
+                    <h3 class="fw-bold mt-3">03. Share</h3>
+                    <p class="text-muted">A journey is better when shared. After your trip, leave reviews for both the location and the route you took. Help fellow travelers by sharing your experience, or help our community grow by contributing new locations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="my-4">
+
+<div class="container py-5">
+    <div class="row align-items-center">
+        <div class="col-lg-6">
+            <h2 class="display-6 fw-bold mb-3">Our Mission: Your Trustworthy Companion</h2>
+            <p class="lead text-secondary">
+                "Sofor Sathi" means "Travel Companion." This isn't just a name—it's our promise. We created this platform to solve a real problem: finding reliable, all-in-one travel information for Bangladesh is too difficult.
+            </p>
+            <p class="text-muted">
+                We were tired of jumping between different blogs, social media groups, and confusing websites just to plan a single trip. We knew there had to be a better, simpler, and more "humanize" way.
+            </p>
+            <p class="text-muted">
+                Our mission is to be the single source of truth for travelers. We combine detailed location guides, practical route information, and an honest review system with powerful planning tools. We are building a platform where you can go from a vague idea to a fully planned trip with confidence, all in one place.
+            </D>
+        </div>
+        <div class="col-lg-6 d-none d-lg-block">
+            <div class="bg-light d-flex align-items-center justify-content-center" style="height: 300px; border-radius: 15px;">
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<hr class="my-4">
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2 class="display-6 fw-bold mb-4">Built By Travelers, For Travelers</h2>
+            <p class="lead text-muted col-lg-8 mx-auto">
+                The best travel guides are written by the travelers themselves. Sofor Sathi is a community-driven platform that gets better with every new user.
+            </p>
+        </div>
+    </div>
+
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h4 class="fw-bold">Share Your Experience</h4>
+            <p class="text-muted">The most valuable information is a real review. On our platform, you can review two separate things: the **Location** itself (was it beautiful? clean? worth the price?) and the **Route** (was the bus comfortable? was the road safe?). This gives future travelers the complete story.</p>
+        </div>
+        <div class="col-md-6">
+            <h4 class="fw-bold">Contribute Your Knowledge</h4>
+            <p class="text-muted">Do you know a hidden waterfall, a new resort, or a secret local restaurant? Do you know a cheaper or faster way to get somewhere? Use our **"Contribute"** feature to suggest new locations and routes. Our admin team will review your submission, and once approved, your knowledge will become a permanent part of our platform, helping thousands of others.</p>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
