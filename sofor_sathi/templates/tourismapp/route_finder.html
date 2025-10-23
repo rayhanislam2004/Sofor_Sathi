@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Find a Route{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Find Your Route 🗺️</h1>
+    <p>Select a starting and ending point, then click "Filter" to see the results.</p>
+
+    <form action="{% url 'tourismapp:route_finder' %}" method="GET" class="row g-3 mb-4 p-3 border rounded bg-light shadow-sm">
+        <div class="col-md-5">
+            <label for="start_point" class="form-label fw-bold">Starting Point (From):</label>
+            <select name="start_point" class="form-select">
+                <option value="">All Starting Points</option>
+                {% for point in start_points %}
+                    <option value="{{ point }}" {% if point == selected_start %}selected{% endif %}>{{ point }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-5">
+            <label for="end_point" class="form-label fw-bold">Ending Point (To):</label>
+            <select name="end_point" class="form-select">
+                <option value="">All Ending Points</option>
+                {% for point in end_points %}
+                    <option value="{{ point }}" {% if point == selected_end %}selected{% endif %}>{{ point }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </form>
+
+    <h3 class="mt-5">Available Routes</h3>
+    <div class="list-group">
+        {% for route in routes %}
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ route.location.name }}</h5>
+                    <small>Route #{{ route.id }}</small>
+                </div>
+                <p class="mb-1">
+                    <strong>From:</strong> {{ route.start_point }}
+                    <strong>To:</strong> {{ route.end_point }}
+                </p>
+
+                <div class="mt-3 p-3 bg-light rounded text-dark">
+                    {{ route.description|linebreaks }}
+                </div>
+
+                <div class="mt-3">
+                     <a href="{% url 'tourismapp:route_detail' route.id %}" class="btn btn-sm btn-outline-primary">View Route Details & Reviews</a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-group-item">
+                <p class="mb-0">No matching routes found for your selection.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
