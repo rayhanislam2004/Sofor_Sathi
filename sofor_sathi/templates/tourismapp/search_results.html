@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results for "{{ query }}"{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Search Results</h1>
+    <p class="lead">Showing results for: <strong>"{{ query }}"</strong></p>
+    <hr>
+
+    {% for location in results %}
+        <div class="card mb-4 shadow-sm">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ location.image.url }}" class="img-fluid rounded-start" alt="{{ location.name }}" style="height: 100%; object-fit: cover;">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ location.name }} ({{ location.location }})</h4>
+                        <p class="card-text">{{ location.description }}</p>
+
+                        <hr>
+
+                        <a href="{% url 'tourismapp:route_finder' %}?end_point={{ location.name }}" class="btn btn-primary">
+                            Find Routes to this Location 🗺️
+                        </a>
+                        <small class="form-text text-muted d-block mt-2">
+                            Click the button to see all available routes to {{ location.name }}.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="text-center">
+            <p>No locations found matching your search. Please try another keyword.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
