@@ -6,30 +6,28 @@ from django.contrib import messages
 
 
 def location_list(request):
-
-    locations = Location.objects.all()
+    locations = Location.objects.filter(is_approved=True)
     context = {'locations': locations}
     return render(request, 'tourismapp/location_list.html', context)
 
 
 def location_detail(request, pk):
-
-    location = get_object_or_404(Location, pk=pk)
+    location = get_object_or_404(Location, pk=pk, is_approved=True)
     location_review_form = LocationReviewForm()
     route_review_form = RouteReviewForm()
+    approved_routes = location.routes.filter(is_approved=True)
 
     context = {
         'location': location,
         'location_review_form': location_review_form,
         'route_review_form': route_review_form,
+        'approved_routes': approved_routes,
     }
-
     return render(request, 'tourismapp/location_detail.html', context)
 
 
 @login_required
 def add_location_review(request, location_id):
-
     location = get_object_or_404(Location, id=location_id)
     if request.method == 'POST':
         form = LocationReviewForm(request.POST)
@@ -45,7 +43,6 @@ def add_location_review(request, location_id):
 
 @login_required
 def add_route_review(request, route_id):
-
     route = get_object_or_404(Route, id=route_id)
     location = route.location
     if request.method == 'POST':
@@ -65,8 +62,11 @@ def search_results(request):
     results = Location.objects.none()
 
     if query:
+
         name_results = Location.objects.filter(name__icontains=query)
-        results = results.distinct()
+        location_results = Location.objects.filter(location__icontains=query)
+        results = name_results | location_results
+        results = results.filter(is_approved=True).distinct()
 
     context = {
         'query': query,
@@ -74,9 +74,11 @@ def search_results(request):
     }
     return render(request, 'tourismapp/search_results.html', context)
 
+
+
 @login_required
 def route_detail(request, route_id):
-    route = get_object_or_404(Route, id=route_id)
+    route = get_object_or_404(Route, id=route_id, is_approved=True)
     if request.method == 'POST':
         form = RouteReviewForm(request.POST)
         if form.is_valid():
@@ -96,18 +98,15 @@ def route_detail(request, route_id):
 
 
 def route_finder(request):
-
     start_point_filter = request.GET.get('start_point')
     end_point_filter = request.GET.get('end_point')
 
-    start_points = Route.objects.values_list('start_point', flat=True).distinct()
-    end_points = Route.objects.values_list('end_point', flat=True).distinct()
-    routes = Route.objects.all()
-
+    routes = Route.objects.filter(is_approved=True)
+    start_points = routes.values_list('start_point', flat=True).distinct()
+    end_points = routes.values_list('end_point', flat=True).distinct()
 
     if start_point_filter and start_point_filter != '':
         routes = routes.filter(start_point=start_point_filter)
-
 
     if end_point_filter and end_point_filter != '':
         routes = routes.filter(end_point=end_point_filter)
@@ -123,13 +122,11 @@ def route_finder(request):
 
 
 def review_list_view(request):
-
-    location_reviews = LocationReview.objects.all().order_by('-id')
-    route_reviews = RouteReview.objects.all().order_by('-id')
+    location_reviews = LocationReview.objects.filter(location__is_approved=True).order_by('-id')
+    route_reviews = RouteReview.objects.filter(route__is_approved=True).order_by('-id')
 
     context = {
         'location_reviews': location_reviews,
         'route_reviews': route_reviews,
     }
-
     return render(request, 'tourismapp/review_list.html', context)
