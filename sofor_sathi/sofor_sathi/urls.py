@@ -29,7 +29,7 @@ urlpatterns = [
     path('review/', views.review, name='review'),
     path('tourism/', include('tourismapp.urls')),
     path('trip/', include('tripapp.urls')),
-
+    path('contribute/', include('contribution.urls')),
 ]
 
 if settings.DEBUG:
