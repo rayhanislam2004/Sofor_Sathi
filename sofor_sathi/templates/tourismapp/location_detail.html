@@ -33,7 +33,7 @@
                     🚍 Routes & Transport
                 </div>
                 <div class="list-group list-group-flush">
-                    {% for route in location.routes.all %}
+                    {% for route in approved_routes %}
                     <div class="list-group-item">
                         <strong>From:</strong> {{ route.start_point }} <br>
                         <strong>To:</strong> {{ route.end_point }}
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     {% empty %}
-                    <div class="list-group-item">No route info available.</div>
+                    <div class="list-group-item">No approved route info available.</div>
                     {% endfor %}
                 </div>
             </div>
@@ -87,7 +87,7 @@
 
         <div class="col-md-6">
             <h3>Reviews for Associated Routes</h3>
-            {% for route in location.routes.all %}
+            {% for route in approved_routes %}
                 <div class="mb-4">
                     <h5>Reviews for: {{ route.start_point }} to {{ route.end_point }}</h5>
                     {% for review in route.reviews.all %}
